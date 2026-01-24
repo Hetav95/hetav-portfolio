@@ -6,211 +6,458 @@
   <title>Hetav Dholakiya | Game Developer</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Gaming glow + animated background */
+    /* Gaming glow */
     .neon-text {
       text-shadow: 0 0 10px rgba(99,102,241,0.8), 0 0 20px rgba(99,102,241,0.6);
     }
     .card-glow {
       box-shadow: 0 0 20px rgba(99,102,241,0.15);
     }
-    .bg-grid {
-      background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size: 40px 40px;
+
+    /* ===== UNIQUE ANIMATED BACKGROUND ===== */
+    body {
+      background: radial-gradient(ellipse at top, #0f0f23 0%, #000000 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      background: rgba(99, 102, 241, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      animation: float-particle 8s ease-in-out infinite;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+    }
+
+    @keyframes float-particle {
+      0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.3;
+      }
+      50% {
+        transform: translateY(-100px) translateX(50px);
+        opacity: 0.8;
+      }
+    }
+
+    /* Glowing orbs */
+    .moving-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 1;
+      animation: orb-float 25s ease-in-out infinite;
+    }
+
+    @keyframes orb-float {
+      0%, 100% { transform: translate(0, 0); }
+      33% { transform: translate(30vw, -20vh); }
+      66% { transform: translate(-20vw, 30vh); }
+    }
+
+    .orb1 {
+      width: 600px;
+      height: 600px;
+      background: rgba(99, 102, 241, 0.2);
+      top: -15%;
+      left: -15%;
+      animation-delay: 0s;
+    }
+
+    .orb2 {
+      width: 500px;
+      height: 500px;
+      background: rgba(139, 92, 246, 0.15);
+      bottom: -20%;
+      right: -15%;
+      animation-delay: 8s;
+      animation-duration: 30s;
+    }
+
+    .orb3 {
+      width: 450px;
+      height: 450px;
+      background: rgba(59, 130, 246, 0.15);
+      top: 40%;
+      left: 40%;
+      animation-delay: 16s;
+      animation-duration: 35s;
+    }
+
+    /* Subtle grid lines */
+    .grid-lines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Mouse trail with glow */
+    .mouse-trail {
+      position: fixed;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      transition: left 0.15s ease-out, top 0.15s ease-out;
+    }
+
+    /* Mouse click ripple effect */
+    @keyframes click-ripple {
+      0% {
+        width: 0px;
+        height: 0px;
+        opacity: 1;
+      }
+      100% {
+        width: 150px;
+        height: 150px;
+        opacity: 0;
+      }
+    }
+
+    .click-ripple {
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.8);
+    }
+
+    /* Glowing stars */
+    .star {
+      position: fixed;
+      background: rgba(99, 102, 241, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
     }
     
-    /* ===== GAME ICON GLOW ===== */
+    /* ===== VERTICAL GAME CARD DESIGN ===== */
+    .game-card {
+      background: linear-gradient(180deg, rgba(30,30,40,1) 0%, rgba(20,20,30,1) 100%);
+      border: 1px solid rgba(99,102,241,0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, rgba(99,102,241,0.1) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .game-card:hover::before {
+      opacity: 1;
+    }
+
+    .game-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(99,102,241,0.5);
+      box-shadow: 
+        0 0 30px rgba(99,102,241,0.3),
+        0 20px 40px rgba(0,0,0,0.4);
+    }
+
     .game-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 16px;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      border-radius: 20px;
       box-shadow:
-        0 0 15px rgba(99,102,241,0.8),
-        0 0 30px rgba(99,102,241,0.6);
-      transition: 0.3s;
+        0 0 20px rgba(99,102,241,0.6),
+        0 0 40px rgba(99,102,241,0.4);
+      transition: all 0.3s;
     }
 
     .game-card:hover .game-icon {
       box-shadow:
-        0 0 25px rgba(99,102,241,1),
-        0 0 50px rgba(99,102,241,0.9);
+        0 0 30px rgba(99,102,241,0.9),
+        0 0 60px rgba(99,102,241,0.7);
+      transform: scale(1.05);
+    }
+
+    .game-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .game-description {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+
+    .game-tech {
+      font-size: 0.75rem;
+      color: rgba(99,102,241,0.9);
+      font-weight: 500;
     }
   </style>
 </head>
-<body class="bg-black text-white bg-grid">
+<body>
+
+<!-- UNIQUE ANIMATED BACKGROUND ELEMENTS -->
+<div class="grid-lines"></div>
+<div class="moving-orb orb1"></div>
+<div class="moving-orb orb2"></div>
+<div class="moving-orb orb3"></div>
+<div class="mouse-trail" id="mouseTrail"></div>
+<div id="particleContainer"></div>
+<div id="starContainer"></div>
+
+<script>
+  // Create floating particles
+  const particleContainer = document.getElementById('particleContainer');
+  for (let i = 0; i < 40; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    const size = Math.random() * 3 + 2;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.top = Math.random() * 100 + '%';
+    particle.style.animationDuration = (5 + Math.random() * 10) + 's';
+    particle.style.animationDelay = Math.random() * 5 + 's';
+    particleContainer.appendChild(particle);
+  }
+
+  // Create twinkling stars
+  const starContainer = document.getElementById('starContainer');
+  for (let i = 0; i < 50; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDuration = (2 + Math.random() * 3) + 's';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    starContainer.appendChild(star);
+  }
+
+  // Mouse trail
+  const mouseTrail = document.getElementById('mouseTrail');
+  document.addEventListener('mousemove', (e) => {
+    mouseTrail.style.left = e.clientX + 'px';
+    mouseTrail.style.top = e.clientY + 'px';
+  });
+
+  // Enhanced mouse click ripple effect (but not on buttons/links)
+  document.addEventListener('click', (e) => {
+    // Check if click is on a button, link, or interactive element
+    if (e.target.closest('a, button, input, textarea, select, .game-card')) {
+      return; // Don't create ripple on interactive elements
+    }
+    
+    const ripple = document.createElement('div');
+    ripple.className = 'click-ripple';
+    ripple.style.position = 'fixed';
+    ripple.style.left = e.clientX + 'px';
+    ripple.style.top = e.clientY + 'px';
+    ripple.style.width = '0px';
+    ripple.style.height = '0px';
+    ripple.style.borderRadius = '50%';
+    ripple.style.border = '3px solid rgba(99, 102, 241, 0.9)';
+    ripple.style.transform = 'translate(-50%, -50%)';
+    ripple.style.pointerEvents = 'none';
+    ripple.style.zIndex = '9999';
+    ripple.style.animation = 'click-ripple 0.8s ease-out';
+    
+    document.body.appendChild(ripple);
+    
+    setTimeout(() => {
+      ripple.remove();
+    }, 800);
+  });
+</script>
 
 <!-- HERO -->
-<section class="min-h-screen flex items-center justify-center text-center px-6 relative">
+<section class="min-h-screen flex items-center justify-center text-center px-6 relative" style="z-index: 10;">
   <div class="max-w-4xl">
-    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 neon-text">HETAV DHOLAKIYA</h1>
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 neon-text" style="color: #fff;">HETAV DHOLAKIYA</h1>
     <p class="text-indigo-400 text-xl mb-4">🎮 Unity Game Developer</p>
-    <p class="text-zinc-400 max-w-2xl mx-auto mb-8">
-      Crafting immersive gameplay systems, performance‑optimized mechanics, and engaging player experiences using Unity, C#, and modern game design practices.
+    <p class="text-zinc-300 max-w-2xl mx-auto mb-8 text-lg leading-relaxed font-medium">
+      Crafting <span class="text-indigo-400 font-bold">immersive gameplay systems</span>, <span class="text-purple-400 font-bold">performance‑optimized mechanics</span>, and <span class="text-pink-400 font-bold">engaging player experiences</span> using Unity, C#, and modern game design practices.
     </p>
 
     <div class="flex flex-wrap justify-center gap-4">
-      <a href="#projects" class="bg-indigo-500 hover:bg-indigo-600 px-6 py-3 rounded-xl shadow-lg card-glow transition">View Games</a>
-      <a href="#resume" class="border border-zinc-600 hover:border-indigo-400 px-6 py-3 rounded-xl transition">View Resume</a>
-      <a href="assets/Hetav_Dholakiya_Resume.pdf" download class="bg-emerald-500 hover:bg-emerald-600 px-6 py-3 rounded-xl transition">⬇ Download Resume</a>
+      <a href="#projects" class="relative bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 px-8 py-3.5 rounded-xl font-bold tracking-wide shadow-xl transition-all duration-300 hover:shadow-indigo-500/60 hover:scale-105 hover:-translate-y-1">VIEW GAMES</a>
+      <a href="#resume" class="relative bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 px-8 py-3.5 rounded-xl font-bold tracking-wide shadow-xl transition-all duration-300 hover:shadow-purple-500/60 hover:scale-105 hover:-translate-y-1">VIEW RESUME</a>
+      <a href="assets/Hetav_Dholakiya_Resume.pdf" download class="relative bg-gradient-to-br from-emerald-600 via-teal-500 to-cyan-500 hover:from-emerald-500 hover:via-teal-400 hover:to-cyan-400 px-8 py-3.5 rounded-xl font-bold tracking-wide shadow-xl transition-all duration-300 hover:shadow-emerald-500/60 hover:scale-105 hover:-translate-y-1">
+        <span class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+          DOWNLOAD RESUME
+        </span>
+      </a>
     </div>
   </div>
 </section>
 
 <!-- ABOUT -->
-<section id="about" class="py-20 px-6">
+<section id="about" class="py-20 px-6 relative" style="z-index: 10;">
   <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
     <div>
-      <h2 class="text-3xl font-bold mb-4 neon-text">Player‑Focused Developer</h2>
-      <p class="text-zinc-400 leading-relaxed">
-        I specialize in Unity game development with a strong focus on mechanics, performance, and polished gameplay feel. From prototyping to production, I enjoy turning ideas into engaging interactive experiences.
+      <h2 class="text-3xl font-bold mb-4 neon-text" style="color: #fff;">Player‑Focused Developer</h2>
+      <p class="text-zinc-300 leading-relaxed text-lg font-medium">
+        I specialize in <span class="text-indigo-400 font-bold">Unity game development</span> with a strong focus on <span class="text-purple-400 font-bold">mechanics</span>, <span class="text-pink-400 font-bold">performance</span>, and polished gameplay feel. From prototyping to production, I enjoy turning ideas into <span class="text-emerald-400 font-bold">engaging interactive experiences</span>.
       </p>
     </div>
-    <div class="bg-zinc-900 p-6 rounded-2xl card-glow">
-      <ul class="space-y-3 text-zinc-300">
-        <li>⚡ C# & Gameplay Programming</li>
-        <li>🎯 Player Controls & Combat Systems</li>
-        <li>🧠 AI, Pathfinding & State Machines</li>
-        <li>📱 Mobile & PC Optimization</li>
+    <div class="relative bg-gradient-to-br from-zinc-900/80 via-zinc-800/80 to-zinc-900/80 p-8 rounded-2xl backdrop-blur-md border-2 border-transparent" style="background-image: linear-gradient(rgb(24 24 27 / 0.8), rgb(39 39 42 / 0.8)), linear-gradient(135deg, rgba(99, 102, 241, 0.8), rgba(139, 92, 246, 0.8), rgba(236, 72, 153, 0.8)); background-origin: border-box; background-clip: padding-box, border-box; box-shadow: 0 0 30px rgba(99, 102, 241, 0.3), inset 0 0 20px rgba(99, 102, 241, 0.1);">
+      <ul class="space-y-4 text-zinc-200">
+        <li class="flex items-center gap-3 text-lg">⚡ <span class="font-semibold">C# & Gameplay Programming</span></li>
+        <li class="flex items-center gap-3 text-lg">🎯 <span class="font-semibold">Player Controls & Combat Systems</span></li>
+        <li class="flex items-center gap-3 text-lg">🧠 <span class="font-semibold">AI, Pathfinding & State Machines</span></li>
+        <li class="flex items-center gap-3 text-lg">📱 <span class="font-semibold">Mobile & PC Optimization</span></li>
+        <li class="flex items-center gap-3 text-lg">🥽 <span class="font-semibold">AR Experience Development</span></li>
       </ul>
     </div>
   </div>
 </section>
 
 <!-- PROJECTS -->
-<section id="projects" class="py-20 px-6 bg-zinc-950">
+<section id="projects" class="py-20 px-6 relative" style="z-index: 10;">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-12 neon-text">Published Games</h2>
+    <h2 class="text-3xl font-bold text-center mb-12 neon-text" style="color: #fff;">Published Games</h2>
 
-    <div class="grid md:grid-cols-3 gap-8">
+    <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
 
       <!-- Bullet Heroes -->
       <a href="https://play.google.com/store/apps/details?id=com.goosebump.bulletheroes" target="_blank"
-         class="bg-zinc-900 p-6 rounded-2xl card-glow hover:scale-105 transition block game-card">
-        <div class="flex items-center gap-4">
-          <img src="assets/icons/bullet_heroes.png" class="game-icon">
-          <div>
-            <h3 class="text-xl font-semibold mb-1">Bullet Heroes</h3>
-            <p class="text-zinc-400 text-sm mb-2">Fast-paced shooting combat game.</p>
-            <span class="text-indigo-400 text-sm">Unity • C# • Mobile</span>
-          </div>
+         class="game-card p-5 rounded-2xl block">
+        <div class="mb-4">
+          <img src="assets/icons/bullet_heroes.png" alt="Bullet Heroes" class="game-icon">
         </div>
+        <h3 class="game-title">Bullet Heroes</h3>
+        <p class="game-description">Fast-paced shooting combat game with intense action.</p>
+        <p class="game-tech">Unity • C# • Mobile</p>
       </a>
 
       <!-- Worm Attack -->
       <a href="https://play.google.com/store/apps/details?id=com.goosebump.wormattack" target="_blank"
-         class="bg-zinc-900 p-6 rounded-2xl card-glow hover:scale-105 transition block game-card">
-        <div class="flex items-center gap-4">
-          <img src="assets/icons/worm_attack.png" class="game-icon">
-          <div>
-            <h3 class="text-xl font-semibold mb-1">Worm Attack</h3>
-            <p class="text-zinc-400 text-sm mb-2">Arcade survival with enemy waves.</p>
-            <span class="text-indigo-400 text-sm">Unity • Gameplay</span>
-          </div>
+         class="game-card p-5 rounded-2xl block">
+        <div class="mb-4">
+          <img src="assets/icons/worm_attack.png" alt="Worm Attack" class="game-icon">
         </div>
+        <h3 class="game-title">Worm Attack</h3>
+        <p class="game-description">Arcade survival with enemy waves and strategic gameplay.</p>
+        <p class="game-tech">Unity • Gameplay</p>
       </a>
 
       <!-- Claw and Conquer -->
       <a href="https://play.google.com/store/apps/details?id=com.goosebump.clawandconquer1" target="_blank"
-         class="bg-zinc-900 p-6 rounded-2xl card-glow hover:scale-105 transition block game-card">
-        <div class="flex items-center gap-4">
-          <img src="assets/icons/claw_conquer.png" class="game-icon">
-          <div>
-            <h3 class="text-xl font-semibold mb-1">Claw and Conquer</h3>
-            <p class="text-zinc-400 text-sm mb-2">Skill-based claw control gameplay.</p>
-            <span class="text-indigo-400 text-sm">Unity • Physics</span>
-          </div>
+         class="game-card p-5 rounded-2xl block">
+        <div class="mb-4">
+          <img src="assets/icons/claw_conquer.png" alt="Claw and Conquer" class="game-icon">
         </div>
+        <h3 class="game-title">Claw and Conquer</h3>
+        <p class="game-description">Skill-based claw control gameplay mechanics.</p>
+        <p class="game-tech">Unity • Physics</p>
       </a>
 
       <!-- Jelly Jam -->
       <a href="https://play.google.com/store/apps/details?id=com.goosebump.jellyjam" target="_blank"
-         class="bg-zinc-900 p-6 rounded-2xl card-glow hover:scale-105 transition block game-card">
-        <div class="flex items-center gap-4">
-          <img src="assets/icons/jelly_jam.png" class="game-icon">
-          <div>
-            <h3 class="text-xl font-semibold mb-1">Jelly Jam</h3>
-            <p class="text-zinc-400 text-sm mb-2">Casual puzzle with smooth animations.</p>
-            <span class="text-indigo-400 text-sm">Unity • Casual</span>
-          </div>
+         class="game-card p-5 rounded-2xl block">
+        <div class="mb-4">
+          <img src="assets/icons/jelly_jam.png" alt="Jelly Jam" class="game-icon">
         </div>
+        <h3 class="game-title">Jelly Jam</h3>
+        <p class="game-description">Casual puzzle with smooth animations and colorful design.</p>
+        <p class="game-tech">Unity • Casual</p>
       </a>
 
       <!-- Tower Strike -->
       <a href="https://play.google.com/store/apps/details?id=com.goosebump.towerstrike" target="_blank"
-         class="bg-zinc-900 p-6 rounded-2xl card-glow hover:scale-105 transition block game-card">
-        <div class="flex items-center gap-4">
-          <img src="assets/icons/tower_strike.png" class="game-icon">
-          <div>
-            <h3 class="text-xl font-semibold mb-1">Tower Strike</h3>
-            <p class="text-zinc-400 text-sm mb-2">Strategic tower destruction game.</p>
-            <span class="text-indigo-400 text-sm">Unity • Combat</span>
-          </div>
+         class="game-card p-5 rounded-2xl block">
+        <div class="mb-4">
+          <img src="assets/icons/tower_strike.png" alt="Tower Strike" class="game-icon">
         </div>
+        <h3 class="game-title">Tower Strike</h3>
+        <p class="game-description">Strategic tower destruction game with physics-based combat.</p>
+        <p class="game-tech">Unity • Combat</p>
       </a>
 
       <!-- Spin and Slay -->
       <a href="https://play.google.com/store/apps/details?id=com.goosebump.spinandslay1" target="_blank"
-         class="bg-zinc-900 p-6 rounded-2xl card-glow hover:scale-105 transition block game-card">
-        <div class="flex items-center gap-4">
-          <img src="assets/icons/spin_slay.png" class="game-icon">
-          <div>
-            <h3 class="text-xl font-semibold mb-1">Spin and Slay</h3>
-            <p class="text-zinc-400 text-sm mb-2">Spin-based action combat.</p>
-            <span class="text-indigo-400 text-sm">Unity • Action</span>
-          </div>
+         class="game-card p-5 rounded-2xl block">
+        <div class="mb-4">
+          <img src="assets/icons/spin_slay.png" alt="Spin and Slay" class="game-icon">
         </div>
+        <h3 class="game-title">Spin and Slay</h3>
+        <p class="game-description">Spin-based action combat with dynamic mechanics.</p>
+        <p class="game-tech">Unity • Action</p>
       </a>
 
       <!-- Nail Paint Jam -->
       <a href="https://play.google.com/store/apps/details?id=com.goosebump.nailpaintjam" target="_blank"
-         class="bg-zinc-900 p-6 rounded-2xl card-glow hover:scale-105 transition block game-card">
-        <div class="flex items-center gap-4">
-          <img src="assets/icons/nail_paint_jam.png" class="game-icon">
-          <div>
-            <h3 class="text-xl font-semibold mb-1">Nail Paint Jam</h3>
-            <p class="text-zinc-400 text-sm mb-2">Relaxing creative nail art game.</p>
-            <span class="text-indigo-400 text-sm">Unity • Casual</span>
-          </div>
+         class="game-card p-5 rounded-2xl block">
+        <div class="mb-4">
+          <img src="assets/icons/nail_paint_jam.png" alt="Nail Paint Jam" class="game-icon">
         </div>
+        <h3 class="game-title">Nail Paint Jam</h3>
+        <p class="game-description">Relaxing creative nail art game with satisfying mechanics.</p>
+        <p class="game-tech">Unity • Casual</p>
       </a>
 
       <!-- Kids Matching Game -->
       <a href="https://play.google.com/store/apps/details?id=com.leopardgames.kidsmatchinggame.learngame" target="_blank"
-         class="bg-zinc-900 p-6 rounded-2xl card-glow hover:scale-105 transition block game-card">
-        <div class="flex items-center gap-4">
-          <img src="assets/icons/kids_matching.png" class="game-icon">
-          <div>
-            <h3 class="text-xl font-semibold mb-1">Kids Matching Game</h3>
-            <p class="text-zinc-400 text-sm mb-2">Educational matching game for kids.</p>
-            <span class="text-indigo-400 text-sm">Unity • Kids</span>
-          </div>
+         class="game-card p-5 rounded-2xl block">
+        <div class="mb-4">
+          <img src="assets/icons/kids_matching.png" alt="Kids Matching Game" class="game-icon">
         </div>
+        <h3 class="game-title">Kids Matching Game</h3>
+        <p class="game-description">Educational matching game designed for young children.</p>
+        <p class="game-tech">Unity • Kids</p>
       </a>
 
       <!-- Fashion Girl -->
       <a href="https://play.google.com/store/apps/details?id=com.leopardgames.fashiongirlsmallgame" target="_blank"
-         class="bg-zinc-900 p-6 rounded-2xl card-glow hover:scale-105 transition block game-card">
-        <div class="flex items-center gap-4">
-          <img src="assets/icons/fashion_girl.png" class="game-icon">
-          <div>
-            <h3 class="text-xl font-semibold mb-1">Fashion Girl</h3>
-            <p class="text-zinc-400 text-sm mb-2">Dress-up and fashion styling.</p>
-            <span class="text-indigo-400 text-sm">Unity • UI</span>
-          </div>
+         class="game-card p-5 rounded-2xl block">
+        <div class="mb-4">
+          <img src="assets/icons/fashion_girl.png" alt="Fashion Girl" class="game-icon">
         </div>
+        <h3 class="game-title">Fashion Girl</h3>
+        <p class="game-description">Dress-up and fashion styling with creative customization.</p>
+        <p class="game-tech">Unity • UI</p>
       </a>
 
       <!-- Math Runner 3D -->
       <a href="https://play.google.com/store/apps/details?id=com.leopardgames.mathrunner" target="_blank"
-         class="bg-zinc-900 p-6 rounded-2xl card-glow hover:scale-105 transition block game-card">
-        <div class="flex items-center gap-4">
-          <img src="assets/icons/math_runner.png" class="game-icon">
-          <div>
-            <h3 class="text-xl font-semibold mb-1">Math Runner 3D</h3>
-            <p class="text-zinc-400 text-sm mb-2">Endless runner with math challenges.</p>
-            <span class="text-indigo-400 text-sm">Unity • 3D</span>
-          </div>
+         class="game-card p-5 rounded-2xl block">
+        <div class="mb-4">
+          <img src="assets/icons/math_runner.png" alt="Math Runner 3D" class="game-icon">
         </div>
+        <h3 class="game-title">Math Runner 3D</h3>
+        <p class="game-description">Endless runner combined with math challenges and learning.</p>
+        <p class="game-tech">Unity • 3D</p>
       </a>
 
     </div>
@@ -218,10 +465,10 @@
 </section>
 
 <!-- RESUME -->
-<section id="resume" class="py-20 px-6">
+<section id="resume" class="py-20 px-6 relative" style="z-index: 10;">
   <div class="max-w-5xl mx-auto text-center">
-    <h2 class="text-3xl font-bold mb-6 neon-text">Resume</h2>
-    <p class="text-zinc-400 mb-8">Preview or download my professional resume.</p>
+    <h2 class="text-3xl font-bold mb-6 neon-text" style="color: #fff;">Resume</h2>
+    <p class="text-zinc-300 mb-8 text-lg font-medium">Preview or download my <span class="text-indigo-400 font-bold">professional resume</span>.</p>
 
     <div class="bg-zinc-900 p-6 rounded-2xl card-glow">
       <iframe src="assets/Hetav_Dholakiya_Resume.pdf" class="w-full h-[500px] rounded-xl"></iframe>
@@ -230,11 +477,11 @@
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="py-20 px-6 bg-zinc-950">
+<section id="contact" class="py-20 px-6 relative" style="z-index: 10;">
   <div class="max-w-4xl mx-auto text-center">
-    <h2 class="text-3xl font-bold mb-4 neon-text">Let’s Build Games</h2>
-    <p class="text-zinc-400 mb-8">Open for freelance, collaborations, and full‑time opportunities.</p>
-    <a href="mailto:yourmail@gmail.com" class="bg-indigo-500 hover:bg-indigo-600 px-8 py-3 rounded-xl transition">📧 Contact Me</a>
+    <h2 class="text-3xl font-bold mb-4 neon-text" style="color: #fff;">Let's Build Games</h2>
+    <p class="text-zinc-300 mb-8 text-lg font-medium">Open for <span class="text-indigo-400 font-bold">freelance</span>, <span class="text-purple-400 font-bold">collaborations</span>, and <span class="text-pink-400 font-bold">full‑time opportunities</span>.</p>
+    <a href="mailto:yourmail@gmail.com" class="relative bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500 px-10 py-4 rounded-xl font-bold tracking-wide shadow-xl transition-all duration-300 hover:shadow-purple-500/60 hover:scale-105 hover:-translate-y-1 text-lg inline-block">📧 CONTACT ME</a>
   </div>
 </section>
 
